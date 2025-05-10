@@ -63,14 +63,15 @@ export const patchClientes = async (req,res) => {
         const {id}= req.params
        const {cli_identificacion, cli_nombre, cli_telefono, cli_correo, cli_direccion, cli_pais, cli_ciudad}= req.body 
        const [result] = await conmysql.query(
-        'UPDATE clientes SET cli_identificacion= IFNULL(?,cli_identificacion), cli_nombre= IFNULL(?,cli_nombre), cli_telefono= IFNULL(?,cli_telefono=), cli_correo= IFNULL(?,cli_correo), cli_direccion= IFNULL(?,cli_direccion), cli_pais= IFNULL(?,cli_pais), cli_ciudad= IFNULL(?,cli_ciudad) WHERE cli_id=?',
-        [cli_identificacion, cli_nombre, cli_telefono, cli_correo, cli_direccion, cli_pais, cli_ciudad,id]);
+        'UPDATE clientes SET cli_identificacion= IFNULL(?,cli_identificacion), cli_nombre= IFNULL(?,cli_nombre), cli_telefono= IFNULL(?,cli_telefono), cli_correo= IFNULL(?,cli_correo), cli_direccion= IFNULL(?,cli_direccion), cli_pais= IFNULL(?,cli_pais), cli_ciudad= IFNULL(?,cli_ciudad) WHERE cli_id=?',
+        [cli_identificacion ?? null, cli_nombre ?? null, cli_telefono ?? null, cli_correo ?? null, cli_direccion ?? null, cli_pais ?? null, cli_ciudad ?? null,id]);
         if(result.affectedRows<=0)return res.status(400).json({
             message: "cliente no encontrado"
         })
         const [row] = await conmysql.query('select * from clientes where cli_id=?', [id])
         res.json(row[0])
     } catch (error) {
+        console.error('Error en patchClientes:', error);
         return res.status(500).json({ message: "error en el servidor" });
     }
 }
