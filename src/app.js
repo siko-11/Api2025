@@ -1,21 +1,45 @@
 import express from 'express'
-//importar las rutas
-import clientesRoutes from './routes/clientesRoutes.js'
-import productosRouter from './routes/productos_route.js'
-import usuariosRouter from './routes/usuarios_route.js'
-import pedidosRouter from './routes/pedidos_route.js'
-import detallespedidosRouter from './routes/detallespedidos_route.js'
-const app = express();
-app.use(express.json()); //interpretar objetos json
-//indicar que rutas se utilizo ojo
-app.use('/api',clientesRoutes)
-app.use('/api', productosRouter)
-app.use('/api', usuariosRouter)
+import cors from 'cors'
+//para subir imagenes 
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+
+//importar las rutas:
+import clientesRoutes from './Routes/clientesroutes.js'
+import productosRoutes from './Routes/productosRoute.js'
+import usuariosRoute from './Routes/usuariosRoute.js'
+import pedidosRouter from './Routes/pedidos_route.js'
+import detallespedidosRouter from './Routes/detallespedidos_route.js'
+
+
+//definir los modulos de entrada 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+//define los permisos
+const corsOptions = {
+    origin: '*', //la direccion del dominio
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true
+}
+
+const app = express()
+app.use(cors(corsOptions))
+app.use(express.json()); //interpreta objetos json
+app.use(express.urlencoded({ extended: true }))//se añade para receptar formularios
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
+
+
+//indicar que rutas se utiliza
+app.use('/api', clientesRoutes)
+app.use('/api', productosRoutes)
+app.use('/api', usuariosRoute)
 app.use('/api', pedidosRouter)
 app.use('/api', detallespedidosRouter)
-app.use((req,resp,next)=>{
+app.use((req, resp, next) => {
     resp.status(400).json({
-        message:'Pagina no encontrada'
+        message: 'PAGINA NO ENCONTRADA'
     })
 })
 export default app;

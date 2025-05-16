@@ -1,9 +1,9 @@
-import { conmysql } from "../bd.js";
+import { commysql } from "../bd.js";
 
 // Obtener todos los pedidos
 export const getPedidos = async (req, res) => {
     try {
-        const [result] = await conmysql.query("SELECT * FROM pedidos");
+        const [result] = await commysql.query("SELECT * FROM pedidos");
         res.json({ cant: result.length, data: result });
     } catch (error) {
         return res.status(500).json({
@@ -15,7 +15,7 @@ export const getPedidos = async (req, res) => {
 // Obtener pedido por ID
 export const getPedidoById = async (req, res) => {
     try {
-        const [result] = await conmysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [req.params.id]);
+        const [result] = await commysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [req.params.id]);
         if (result.length <= 0) {
             return res.status(400).json({
                 ped_id: 0,
@@ -35,7 +35,7 @@ export const postPedido = async (req, res) => {
     try {
         const { cli_id, ped_fecha, usr_id, ped_estado } = req.body;
 
-        const [result] = await conmysql.query(
+        const [result] = await commysql.query(
             "INSERT INTO pedidos (cli_id, ped_fecha, usr_id, ped_estado) VALUES (?, ?, ?, ?)",
             [cli_id, ped_fecha, usr_id, ped_estado]
         );
@@ -54,7 +54,7 @@ export const putPedido = async (req, res) => {
         const { id } = req.params;
         const { cli_id, ped_fecha, usr_id, ped_estado } = req.body;
 
-        const [result] = await conmysql.query(
+        const [result] = await commysql.query(
             "UPDATE pedidos SET cli_id=?, ped_fecha=?, usr_id=?, ped_estado=? WHERE ped_id=?",
             [cli_id, ped_fecha, usr_id, ped_estado, id]
         );
@@ -65,7 +65,7 @@ export const putPedido = async (req, res) => {
             });
         }
 
-        const [row] = await conmysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [id]);
+        const [row] = await commysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [id]);
         res.json(row[0]);
     } catch (error) {
         return res.status(500).json({
@@ -96,7 +96,7 @@ export const patchPedido = async (req, res) => {
             });
         }
 
-        const [row] = await conmysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [id]);
+        const [row] = await commysql.query("SELECT * FROM pedidos WHERE ped_id = ?", [id]);
         res.json(row[0]);
     } catch (error) {
         return res.status(500).json({
@@ -108,7 +108,7 @@ export const patchPedido = async (req, res) => {
 // Eliminar pedido
 export const deletePedidoById = async (req, res) => {
     try {
-        const [result] = await conmysql.query("DELETE FROM pedidos WHERE ped_id = ?", [req.params.id]);
+        const [result] = await commysql.query("DELETE FROM pedidos WHERE ped_id = ?", [req.params.id]);
 
         if (result.affectedRows === 0) {
             return res.status(400).json({

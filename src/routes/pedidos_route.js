@@ -6,15 +6,15 @@ import {
     putPedido,
     patchPedido,
     deletePedidoById
-} from '../controladores/pedidosCtrl.js';
+} from '../Controladores/pedidosCtrl.js';
 // 
-const routes = express.Router();
+const router = express();
 
-routes.get('/pedidos', getPedidos);
-routes.get('/pedidos/:id', getPedidoById);
-routes.post('/pedidos', postPedido);
-routes.put('/pedidos/:id', putPedido);
-routes.patch('/pedidos/:id', patchPedido);
-routes.delete('/pedidos/:id', deletePedidoById);
+router.get('/pedidos', getPedidos);
+router.get('/pedidos/:id', getPedidoById);
+router.post('/pedidos', postPedido);
+router.put('/pedidos/:id', putPedido);
+router.patch('/pedidos/:id', patchPedido);
+router.delete('/pedidos/:id', deletePedidoById);
 
-export default routes;
+export default router;
