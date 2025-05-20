@@ -5,16 +5,22 @@ import {
     postUsuarios,
     putUsuarios,
     patchUsuarios,
-    deleteUsuarios
-} from "../Controladores/usuariosCtrl.js";
+    deleteUsuarios,
+    login
+} from "../controladores/usuariosCtrl.js";
+import { verificarToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/usuarios', getUsuarios);
-router.get('/usuarios/:id', getUsuariosxid);
-router.post('/usuarios', postUsuarios);
-router.put('/usuarios/:id', putUsuarios);
-router.patch('/usuarios/:id', patchUsuarios);
-router.delete('/usuarios/:id', deleteUsuarios);
+// Rutas públicas
+router.post('/login', login);
+
+// Rutas protegidas con JWT
+router.get('/usuarios', verificarToken, getUsuarios);
+router.get('/usuarios/:id', verificarToken, getUsuariosxid);
+router.post('/usuarios', verificarToken, postUsuarios);
+router.put('/usuarios/:id', verificarToken, putUsuarios);
+router.patch('/usuarios/:id', verificarToken, patchUsuarios);
+router.delete('/usuarios/:id', verificarToken, deleteUsuarios);
 
 export default router;

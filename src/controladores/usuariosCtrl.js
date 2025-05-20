@@ -1,4 +1,5 @@
 import { commysql } from '../bd.js';
+import { generarToken } from '../utils/jwt.js';
 
 // Obtener todos los usuarios
 export const getUsuarios = async (req, res) => {
@@ -100,5 +101,27 @@ export const deleteUsuarios = async (req, res) => {
         res.json({ message: "Usuario eliminado correctamente" });
     } catch (error) {
         return res.status(500).json({ message: "Error en el servidor" });
+    }
+};
+
+// LOGIN CON JWT
+export const login = async (req, res) => {
+    const { correo, password } = req.body;
+
+    try {
+        const [result] = await commysql.query(
+            "SELECT * FROM usuarios WHERE usr_correo = ? AND usr_clave = ?",
+            [correo, password]
+        );
+
+        if (result.length > 0) {
+            const usuario = result[0];
+            const token = generarToken(usuario);
+            res.json({ token, usuario });
+        } else {
+            res.status(401).json({ mensaje: "Credenciales incorrectas" });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Error al intentar iniciar sesión" });
     }
 };

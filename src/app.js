@@ -6,11 +6,11 @@ import { fileURLToPath } from 'url'
 
 
 //importar las rutas:
-import clientesRoutes from './Routes/clientesroutes.js'
-import productosRoutes from './Routes/productosRoute.js'
-import usuariosRoute from './Routes/usuariosRoute.js'
-import pedidosRouter from './Routes/pedidos_route.js'
-import detallespedidosRouter from './Routes/detallespedidos_route.js'
+import clientesRoutes from './routes/clientesroutes.js'
+import productosRoutes from './routes/productosRoute.js'
+import usuariosRoute from './routes/usuariosRoute.js'
+import pedidosRouter from './routes/pedidos_route.js'
+import detallespedidosRouter from './routes/detallespedidos_route.js'
 
 
 //definir los modulos de entrada 
