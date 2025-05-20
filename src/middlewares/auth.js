@@ -7,7 +7,7 @@ export const verificarToken = (req, res, next) => {
     if (!token) return res.status(403).json({ mensaje: 'Token no proporcionado' });
 
     try {
-        const decoded = jwt.verify(token.replace('Bearer ', ''), 'secreto123'); // mismo secreto que usas en generarToken
+        const decoded = jwt.verify(token.replace('Bearer ', ''), 'secreto123'); 
         req.usuario = decoded;
         next();
     } catch (err) {
